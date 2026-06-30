@@ -1,0 +1,12 @@
+# This repo is authored on Windows but RUNS on a Linux GPU box.
+# Force LF for everything so bash scripts don't fail with $'\r': command not found
+# (and so sourced env vars never get a trailing carriage return).
+* text=auto eol=lf
+
+*.sh   text eol=lf
+*.py   text eol=lf
+*.yaml text eol=lf
+*.yml  text eol=lf
+*.txt  text eol=lf
+*.md   text eol=lf
+*.json text eol=lf
