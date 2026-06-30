@@ -9,6 +9,7 @@ release/
 *.zip
 data/*.jsonl
 .hf_cache/
+cache/
 .ipynb_checkpoints/
 .env
 .ruff_cache/

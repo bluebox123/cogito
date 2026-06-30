@@ -27,7 +27,9 @@ def main():
 
     from trl import GRPOConfig, GRPOTrainer
 
-    num_generations, per_device, grad_accum, max_completion = 8, 4, 8, 2048
+    # num_generations=6 so per_device(4) x num_processes(3) = 12 is divisible by it
+    # (works under every TRL batch-divisibility rule for the 3-GPU training split).
+    num_generations, per_device, grad_accum, max_completion = 6, 4, 8, 2048
     max_steps = a.max_steps
     if a.smoke:
         num_generations, per_device, grad_accum, max_completion, max_steps = 4, 4, 1, 768, 5

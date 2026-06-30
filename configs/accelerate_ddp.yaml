@@ -1,4 +1,5 @@
-# 2-GPU DDP (GPUs visible via CUDA_VISIBLE_DEVICES=1,2). bf16, no offload.
+# 3-GPU DDP (GPUs visible via CUDA_VISIBLE_DEVICES=1,2,3). bf16, no offload.
+# num_processes here is overridden by --num_processes in scripts/launch_*.sh.
 compute_environment: LOCAL_MACHINE
 debug: false
 distributed_type: MULTI_GPU
@@ -9,7 +10,7 @@ machine_rank: 0
 main_training_function: main
 mixed_precision: bf16
 num_machines: 1
-num_processes: 2
+num_processes: 3
 rdzv_backend: static
 same_network: true
 tpu_use_cluster: false

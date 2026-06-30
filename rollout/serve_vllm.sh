@@ -3,6 +3,7 @@
 # Used by scripts/launch_*.sh. Env: MODEL, MAXLEN, VLLM_GPU, VLLM_PORT, VLLM_GPU_MEM.
 set -e
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+source "$ROOT/scripts/env.sh"   # caches -> big disk; inherited by the nohup'd server
 MODEL="${MODEL:-Qwen/Qwen2.5-3B}"
 MAXLEN="${MAXLEN:-2048}"
 GPU="${VLLM_GPU:-0}"

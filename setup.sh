@@ -1,7 +1,15 @@
 #!/usr/bin/env bash
 # One-shot environment setup on the GPU box. Idempotent-ish; safe to re-run.
 set -e
+ROOT="$(cd "$(dirname "$0")" && pwd)"
+
+# Route ALL caches/temp onto the big disk BEFORE any pip/HF activity.
+source "$ROOT/scripts/env.sh"
+
 echo "[setup] python: $(python --version 2>&1)"
+echo "[setup] repo + caches on: $ROOT"
+echo "[setup] free space here:"
+df -h "$ROOT" 2>/dev/null || true
 
 # tmux + curl (best-effort; training falls back to nohup if tmux is absent)
 if ! command -v tmux >/dev/null 2>&1; then
@@ -13,7 +21,10 @@ echo "[setup] upgrading pip toolchain"
 pip install -U pip setuptools wheel
 
 echo "[setup] installing RL stack (vllm, trl, transformers, ...)"
-pip install -r requirements.txt
+pip install -r "$ROOT/requirements.txt"
+
+echo "[setup] installing hf_transfer (faster/resumable HF downloads)"
+pip install hf_transfer || echo "[setup] hf_transfer optional install failed; continuing"
 
 echo "[setup] installing flash-attn (optional; falls back to sdpa if it fails)"
 pip install flash-attn --no-build-isolation || echo "[setup] flash-attn not installed -> sdpa attention"
