@@ -17,7 +17,6 @@ export HF_HOME="$_C/hf"
 export HF_HUB_CACHE="$_C/hf/hub"
 export HF_DATASETS_CACHE="$_C/hf/datasets"
 export TRANSFORMERS_CACHE="$_C/hf/transformers"   # legacy var; harmless to set
-export HF_HUB_ENABLE_HF_TRANSFER=1                # faster, resumable downloads
 
 # Torch / Triton / Inductor / vLLM compile caches
 export TORCH_HOME="$_C/torch"
@@ -39,6 +38,12 @@ export XDG_CACHE_HOME="$_C"
 if [ -f "$COGITO_HOME/venv/bin/activate" ]; then
   # shellcheck disable=SC1091
   source "$COGITO_HOME/venv/bin/activate"
+fi
+
+# Faster HF downloads -- but ONLY if hf_transfer is actually installed, otherwise
+# huggingface_hub errors out. Safe to leave off; downloads still work + resume.
+if python -c "import hf_transfer" >/dev/null 2>&1; then
+  export HF_HUB_ENABLE_HF_TRANSFER=1
 fi
 
 mkdir -p "$HF_HUB_CACHE" "$HF_DATASETS_CACHE" "$TRANSFORMERS_CACHE" \
