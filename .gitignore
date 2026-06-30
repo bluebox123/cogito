@@ -10,6 +10,7 @@ release/
 data/*.jsonl
 .hf_cache/
 cache/
+venv/
 .ipynb_checkpoints/
 .env
 .ruff_cache/

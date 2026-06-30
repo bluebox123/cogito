@@ -34,6 +34,13 @@ export TMP="$_C/tmp"
 # Generic XDG fallback for anything else that caches to ~/.cache
 export XDG_CACHE_HOME="$_C"
 
+# If a virtualenv exists on the big disk (created by setup.sh), activate it so the
+# heavy packages (torch/vllm/...) live on the big mount, not the small base disk.
+if [ -f "$COGITO_HOME/venv/bin/activate" ]; then
+  # shellcheck disable=SC1091
+  source "$COGITO_HOME/venv/bin/activate"
+fi
+
 mkdir -p "$HF_HUB_CACHE" "$HF_DATASETS_CACHE" "$TRANSFORMERS_CACHE" \
          "$TORCH_HOME" "$TRITON_CACHE_DIR" "$TORCHINDUCTOR_CACHE_DIR" \
          "$VLLM_CACHE_ROOT" "$PIP_CACHE_DIR" "$TMPDIR" 2>/dev/null || true

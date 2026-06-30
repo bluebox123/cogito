@@ -11,6 +11,16 @@ echo "[setup] repo + caches on: $ROOT"
 echo "[setup] free space here:"
 df -h "$ROOT" 2>/dev/null || true
 
+# Create a virtualenv ON THE BIG DISK so torch/vllm/... (~10GB) never touch the
+# small base disk. env.sh auto-activates it for the launch/serve scripts later.
+if [ ! -f "$ROOT/venv/bin/activate" ]; then
+  echo "[setup] creating virtualenv at $ROOT/venv (on the big disk)"
+  python -m venv "$ROOT/venv"
+fi
+# shellcheck disable=SC1091
+source "$ROOT/venv/bin/activate"
+echo "[setup] using python: $(command -v python)"
+
 # tmux + curl (best-effort; training falls back to nohup if tmux is absent)
 if ! command -v tmux >/dev/null 2>&1; then
   (apt-get update -y && apt-get install -y tmux curl) >/dev/null 2>&1 || \
