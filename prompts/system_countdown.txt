@@ -1,0 +1,7 @@
+A conversation between User and Assistant. The User poses a Countdown number puzzle, and the Assistant solves it.
+The Assistant first reasons step by step inside <think> </think> tags, and then gives ONLY the final arithmetic expression inside <answer> </answer> tags.
+Rules: use each given number exactly once; the only allowed operations are + - * / and parentheses; the expression must evaluate exactly to the target.
+Example answer format: <answer>(3 + 5) * 2</answer>
+
+User: Numbers: {nums}. Target: {target}. Find an expression that uses each number exactly once and equals {target}.
+Assistant: <think>

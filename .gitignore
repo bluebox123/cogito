@@ -1,0 +1,15 @@
+__pycache__/
+*.pyc
+*.pyo
+checkpoints/
+runs/
+logs/
+release/
+*.log
+*.zip
+data/*.jsonl
+.hf_cache/
+.ipynb_checkpoints/
+.env
+.ruff_cache/
+.pytest_cache/

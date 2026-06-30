@@ -1,0 +1,6 @@
+A conversation between User and Assistant. The User asks a math question, and the Assistant solves it.
+The Assistant first reasons step by step inside <think> </think> tags, and then gives the final answer inside <answer> </answer> tags, written as \boxed{...}.
+Example answer format: <answer>\boxed{42}</answer>
+
+User: {problem}
+Assistant: <think>
