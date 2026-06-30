@@ -7,6 +7,7 @@
 set -e
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
+source "$ROOT/scripts/env.sh"   # activate big-disk venv + cache dirs for eval
 : "${HF_REPO:?Set HF_REPO=your-username/cogito-3b}"
 
 FINAL="${FINAL:-}"
@@ -20,7 +21,7 @@ fi
 [ -z "$FINAL" ] && { echo "[finalize] no checkpoint found; set FINAL=path"; exit 1; }
 echo "[finalize] final model: $FINAL"
 
-echo "[finalize] stopping any running training / vLLM server to free all 3 GPUs ..."
+echo "[finalize] stopping any running training / vLLM server to free all 4 GPUs ..."
 bash scripts/stop.sh >/dev/null 2>&1 || true
 sleep 5
 
@@ -47,7 +48,7 @@ echo "[finalize] wrote $ROOT/cogito_release.zip  (download via the JupyterLab fi
 if [ "${CONFIRM_WIPE:-0}" = "1" ]; then
   echo "[finalize] CONFIRM_WIPE=1 -> wiping scratch (checkpoints, datasets, HF cache) ..."
   rm -rf checkpoints data/*.jsonl runs logs
-  rm -rf "${HF_HOME:-$HOME/.cache/huggingface}"
+  rm -rf "$ROOT/cache"   # HF + pip + torch + vllm caches all live here (big disk)
   echo "[finalize] wiped. Kept: cogito_release.zip + the HF repo $HF_REPO"
 else
   echo "[finalize] Skipped wipe. After you download cogito_release.zip AND confirm"
