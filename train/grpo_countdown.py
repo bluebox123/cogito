@@ -26,8 +26,10 @@ def main():
 
     from trl import GRPOConfig, GRPOTrainer
 
-    # per_device * grad_accum is divisible by num_generations for any world size.
-    num_generations, per_device, grad_accum, max_completion = 8, 8, 4, 1024
+    # per_device kept small (2) to avoid CUDA OOM from the fp32 logits during logp
+    # computation (vocab ~152k). num_generations=6 keeps per_device*num_processes(3)=6
+    # divisible, and generation_batch = 2*3*8 = 48 is divisible by 6 too.
+    num_generations, per_device, grad_accum, max_completion = 6, 2, 8, 1024
     max_steps = a.max_steps
     if a.smoke:
         num_generations, per_device, grad_accum, max_completion, max_steps = 4, 4, 1, 512, 5

@@ -24,6 +24,9 @@ export TRITON_CACHE_DIR="$_C/triton"
 export TORCHINDUCTOR_CACHE_DIR="$_C/inductor"
 export VLLM_CACHE_ROOT="$_C/vllm"
 
+# Reduce CUDA memory fragmentation (helps avoid OOM during GRPO logp computation).
+export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
+
 # pip download+build cache, and TMP (flash-attn/vllm builds extract here -> huge)
 export PIP_CACHE_DIR="$_C/pip"
 export TMPDIR="$_C/tmp"
