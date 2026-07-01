@@ -1,5 +1,7 @@
 # Cogito — a reasoning model trained with GRPO (RL from verifiable rewards)
 
+**Model on Hugging Face:** https://huggingface.co/Bluebox85033/cogito-3b — trained weights, held-out benchmarks, and full model card.
+
 Take `Qwen2.5-3B` (a base model that can't reason well) and use **GRPO** —
 reinforcement learning from *verifiable* rewards — to make it teach itself
 step-by-step reasoning. No reasoning supervision: only "did it get the right
