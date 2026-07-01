@@ -11,6 +11,13 @@ PORT="${VLLM_PORT:-8000}"
 MEM="${VLLM_GPU_MEM:-0.85}"
 mkdir -p "$ROOT/logs"
 
+# Free the port + kill any leftover vLLM front-end from a prior run, otherwise the
+# new server dies with "[Errno 98] address already in use" (the API server holds the
+# port even when it uses ~no GPU memory, so memory-based kills miss it).
+fuser -k "${PORT}/tcp" 2>/dev/null || true
+pkill -9 -f "vllm-serve" 2>/dev/null || true
+sleep 2
+
 echo "[serve] vLLM rollout server: model=$MODEL gpu=$GPU maxlen=$MAXLEN port=$PORT"
 CUDA_VISIBLE_DEVICES="$GPU" nohup trl vllm-serve \
   --model "$MODEL" \
