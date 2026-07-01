@@ -27,6 +27,10 @@ export VLLM_CACHE_ROOT="$_C/vllm"
 # Reduce CUDA memory fragmentation (helps avoid OOM during GRPO logp computation).
 export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
 
+# This box has the CUDA driver but no toolkit (no nvcc). FlashInfer's sampler tries
+# to JIT-compile a CUDA kernel at runtime -> crashes. Force vLLM's native sampler.
+export VLLM_USE_FLASHINFER_SAMPLER=0
+
 # pip download+build cache, and TMP (flash-attn/vllm builds extract here -> huge)
 export PIP_CACHE_DIR="$_C/pip"
 export TMPDIR="$_C/tmp"
