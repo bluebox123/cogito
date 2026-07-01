@@ -39,7 +39,6 @@ def main():
         per_device_train_batch_size=per_device,
         gradient_accumulation_steps=grad_accum,
         num_generations=num_generations,
-        max_prompt_length=256,
         max_completion_length=max_completion,
         temperature=0.9,
         learning_rate=5e-7,
