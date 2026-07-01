@@ -7,7 +7,10 @@ trl>=0.18.0
 transformers>=4.51.0
 accelerate>=1.4.0
 datasets>=3.2.0
-deepspeed>=0.16.0
+# deepspeed intentionally NOT installed: we train with plain DDP (accelerate_ddp.yaml).
+# When present it gets auto-imported by accelerate and crashes if CUDA_HOME is unset.
+# If you ever switch to ZeRO (accelerate_zero2.yaml), `pip install deepspeed` with a
+# valid CUDA_HOME first.
 math-verify>=0.7.0
 latex2sympy2-extended>=1.0.0
 tensorboard>=2.16.0
