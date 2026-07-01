@@ -29,8 +29,11 @@ def main():
 
     # num_generations=6 so per_device(4) x num_processes(3) = 12 is divisible by it
     # (works under every TRL batch-divisibility rule for the 3-GPU training split).
-    # per_device=2 to avoid CUDA OOM (2048-token completions + 152k vocab logits).
-    num_generations, per_device, grad_accum, max_completion = 6, 2, 8, 2048
+    # Math completions are longer than Countdown, so per_device=1 for memory margin
+    # (Countdown ran at ~81/82GB with per_device=2 @1024 tokens; math @1536 would OOM).
+    # num_generations=3 keeps per_device*num_processes(3)=3 divisible; generation_batch
+    # = 1*3*16 = 48 is divisible by 3 too.
+    num_generations, per_device, grad_accum, max_completion = 3, 1, 16, 1536
     max_steps = a.max_steps
     if a.smoke:
         num_generations, per_device, grad_accum, max_completion, max_steps = 4, 4, 1, 768, 5
